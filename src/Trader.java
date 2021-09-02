@@ -34,7 +34,12 @@ public class Trader {
 
         //Event based stuff here to turn bot.activate into an event handler.
         //Each time there is a new trade detected, call activate on the bot
-        bot.activate();
+        dsl.marketData.addMarketTradeHandler(
+                mt -> System.out.println("A market trade happened: " + mt.getDate() + " " + mt.getPriceInAlt());
+                bot.activate();
+
+        )
+
 
     }
 }
