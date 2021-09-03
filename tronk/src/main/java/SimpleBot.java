@@ -1,4 +1,4 @@
-import com.scalesinformatics.prosperity.helloworld.LocalExchange;
+import org.ta4j.core.num.Num;
 
 public class SimpleBot {
     /* Buys the asset if its price decreased by more than the threshold. */
@@ -29,7 +29,7 @@ public class SimpleBot {
 
     public void activate() {
         //Get current market price for XBT
-        XBTprice = lexchange.getMarketPrice();
+        XBTprice = lexchange.getMarketPrice().doubleValue();
 
         //See what the % change in XBT price is
         percentDiff = (XBTprice - lastObPrice) / lastObPrice * 100;

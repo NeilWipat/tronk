@@ -1,0 +1,26 @@
+dependencies {
+    // Market data GRPC stuff
+//    api "com.scalesinformatics.prosperity.marketdata:grpc-proto:$prosperity_version"
+    api "com.scalesinformatics.prosperity.traders:dsl:$prosperity_version"
+
+    // Command line library (https://picocli.info/)
+    implementation "info.picocli:picocli:$picocli_version"
+
+    implementation "de.vandermeer:asciitable:0.3.2"
+
+    // Suppresses the annoying SLF4j warnings that no logger binding is present...
+    implementation "org.slf4j:slf4j-nop:1.7.30"
+
+//    implementation "org.knowm.xchart:xchart:$xchart_version"
+
+    // Only needed for some dependencies (utils + jfreechart)
+    // TODO remove this when possible because it also brings in SLF4J and causes various confusion...
+//    implementation "org.ta4j:ta4j-examples:$ta4j_version"
+}
+
+// Suppresses the annoying SLF4j warnings that multiple logger bindings are present...
+configurations.all {
+    exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+    exclude group: 'ch.qos.logback', module: 'logback-classic'
+}
+

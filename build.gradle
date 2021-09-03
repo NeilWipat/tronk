@@ -1,0 +1,123 @@
+
+
+buildscript {
+    ext {
+        // See: https://kevcodez.de/posts/2020-02-02-s3-maven-repository-gradle/
+        scales_public_repo = "s3://z80-public-jars"
+        scales_private_repo = "s3://z80-jars"
+        awsAccessKeyId = System.env.SCALEWAY_JAR_REPO_ACCESS_KEY ?: findProperty('scaleway_jar_repo_aws_access_key')
+        awsSecretAccessKey = System.env.SCALEWAY_JAR_REPO_AWS_SECRET_KEY ?: findProperty('scaleway_jar_repo_aws_secret_key')
+
+        prosperity_version = "8.1-SNAPSHOT"
+
+
+        javax_annotation_api_version = "1.3.2"
+
+        /*
+         * gRPC
+         */
+        // https://github.com/google/protobuf-gradle-plugin/releases
+        protobuf_plugin_version = "0.8.15"
+
+        // https://mvnrepository.com/artifact/com.google.protobuf/protoc
+        protobuf_version = "3.15.4"
+
+        // https://mvnrepository.com/artifact/io.grpc/grpc-all
+        // https://mvnrepository.com/artifact/io.grpc/protoc-gen-grpc-java
+        grpc_version = "1.36.0"
+
+        kitteh_version = "7.2.2"
+        ta4j_version = "0.14"
+        picocli_version = "4.6.1"
+
+        xchart_version = "3.8.0"
+    }
+    
+    repositories {
+        mavenCentral()
+    }
+}
+
+plugins {
+    id "idea"
+    id "maven-publish"
+}
+
+
+
+subprojects {
+    group 'com.scalesinformatics.prosperity.helloworld'
+    version '8.1-SNAPSHOT'
+
+    apply plugin: 'java-library'
+    apply plugin: 'idea'
+    apply plugin: "maven-publish"
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    // Print dependencies for sub-modules
+    // https://stackoverflow.com/questions/44266687/how-to-print-out-all-dependencies-in-a-gradle-multi-project-build
+    task printSubDependencies(type: DependencyReportTask) {}
+
+    repositories {
+        mavenCentral()
+
+        maven {
+            url = "${scales_public_repo}/releases"
+            credentials(AwsCredentials) {
+                accessKey = awsAccessKeyId
+                secretKey = awsSecretAccessKey
+            }
+        }
+
+        maven {
+            url = "${scales_public_repo}/snapshots"
+            credentials(AwsCredentials) {
+                accessKey = awsAccessKeyId
+                secretKey = awsSecretAccessKey
+            }
+        }
+
+        maven {
+            url = "${scales_private_repo}/releases"
+            credentials(AwsCredentials) {
+                accessKey = awsAccessKeyId
+                secretKey = awsSecretAccessKey
+            }
+        }
+
+        maven {
+            url = "${scales_private_repo}/snapshots"
+            credentials(AwsCredentials) {
+                accessKey = awsAccessKeyId
+                secretKey = awsSecretAccessKey
+            }
+        }
+    }
+
+    publishing {
+        publications {
+            register("jar", MavenPublication) {
+                from(components["java"])
+            }
+        }
+        repositories {
+            maven {
+                name 'Scales'
+                credentials(AwsCredentials) {
+                    accessKey awsAccessKeyId
+                    secretKey awsSecretAccessKey
+                }
+                if (project.version.endsWith('-SNAPSHOT')) {
+                    url "${scales_private_repo}/snapshots"
+                } else {
+                    url "${scales_private_repo}/releasess"
+                }
+            }
+        }
+
+    }
+}
