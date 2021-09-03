@@ -37,9 +37,13 @@ public class SimpleBot {
         // Check buy or sell state
         if (isNextOpBuy) {
             //If we are buying then try to buy
+            System.out.println("PercentDiff is "+percentDiff+"\n");
+            System.out.println("Buying XBT at "+XBTprice+"\n");
             tryToBuy(percentDiff);
         } else
         {
+            System.out.println("PercentDiff is "+percentDiff+"\n");
+            System.out.println("Selling XBT at "+XBTprice+"\n");
             tryToSell(percentDiff);
         }
     }

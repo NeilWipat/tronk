@@ -16,6 +16,7 @@ import java.util.Date;
 public class Trader {
 
     public static void main(String[] args) throws SSLException, ParseException, InterruptedException {
+        System.out.println("Running \n");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date start = sdf.parse("2021-08-03 20:00");
 
@@ -27,6 +28,15 @@ public class Trader {
 
         //Create an exchange
         LocalExchange lexchange = new LocalExchange(dsl);
+
+
+        TradeStreamWorker tradeStreamWorker = dsl.marketData.subscribeToMarketTradeStream(start);
+
+
+        System.out.println("Pulling trades from the server and feeding them to the simulated exchange. Please wait...");
+        for (int i = 0; i < 10; i++) {
+            Thread.sleep(1000L);
+        }
 
         //Launch a bot
         SimpleBot bot = new SimpleBot(lexchange);
