@@ -20,7 +20,6 @@ public class LocalExchange {
     private final DSL dsl;
     double dollars;
     double xbt;
-    double cash;
 
     SimulatedExchange dummyExchange;
 
@@ -34,7 +33,7 @@ public class LocalExchange {
 
     // Contact the exchange and return our current account balance
     public double getBalances(){
-        return cash;
+        return dollars;
     } //keep cash local for now.
 
     //Get the price of BTC
@@ -43,7 +42,7 @@ public class LocalExchange {
     }
 
     public double placeSellOrder() {
-        dsl.orders.placeOrder(Direction.SELL, 1, cash);
+        dsl.orders.placeOrder(Direction.SELL, 1, dollars);
         double price = dummyExchange.getLastSellPrice().doubleValue(); //This should be the price we got for the trade(s) in practise.
         //Convert our xbt into dollars
         dollars = xbt * price;
@@ -52,7 +51,7 @@ public class LocalExchange {
     }
 
     public double placeBuyOrder() {
-        dsl.orders.placeOrder(Direction.BUY, 1, cash);
+        dsl.orders.placeOrder(Direction.BUY, 1, dollars);
         double price = dummyExchange.getLastBuyPrice().doubleValue(); //This should be the price we got for the trade(s) in practise.
         //Convert our dollars into xbt
         xbt = dollars/price;

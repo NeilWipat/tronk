@@ -46,6 +46,8 @@ public class SimpleBot {
             System.out.println("Selling XBT at "+XBTprice+"\n");
             tryToSell(percentDiff);
         }
+        System.out.println("Cash balance:"+lexchange.getBalances()+"\n");
+
     }
 
     public void tryToBuy(double percentDiff)
@@ -62,6 +64,8 @@ public class SimpleBot {
         // If the price increase is above our profit threshold then sell XBT to make a profit OR sell before it crashes further
         if (percentDiff >= PROFIT_THRESHOLD || percentDiff <=STOP_LOSS_THRESHOLD)
         {
+
+            //need to wait for sell here somehow..
             lexchange.placeSellOrder();
             isNextOpBuy = true;
         }
