@@ -4,9 +4,9 @@
 import com.scalesinformatics.prosperity.data.exchange.Currency;
 import com.scalesinformatics.prosperity.data.exchange.Direction;
 import com.scalesinformatics.prosperity.data.exchange.ExchangeType;
-import com.scalesinformatics.prosperity.dsl2.DSL;
-import com.scalesinformatics.prosperity.dsl2.marketdata.TradeStreamWorker;
-import com.scalesinformatics.prosperity.dsl2.simulated_exchange.SimulatedExchange;
+import com.scalesinformatics.prosperity.dsl.DSL;
+import com.scalesinformatics.prosperity.dsl.marketdata.TradeStreamWorker;
+import com.scalesinformatics.prosperity.dsl.simulated_exchange.SimulatedExchange;
 import org.ta4j.core.num.Num;
 
 import javax.net.ssl.SSLException;

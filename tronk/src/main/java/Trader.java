@@ -1,9 +1,10 @@
 import com.scalesinformatics.prosperity.data.exchange.Currency;
 import com.scalesinformatics.prosperity.data.exchange.Direction;
 import com.scalesinformatics.prosperity.data.exchange.ExchangeType;
-import com.scalesinformatics.prosperity.dsl2.DSL;
-import com.scalesinformatics.prosperity.dsl2.marketdata.TradeStreamWorker;
-import com.scalesinformatics.prosperity.dsl2.simulated_exchange.SimulatedExchange;
+import com.scalesinformatics.prosperity.dsl.DSL;
+import com.scalesinformatics.prosperity.dsl.marketdata.TradeStreamWorker;
+import com.scalesinformatics.prosperity.dsl.simulated_exchange.SimulatedExchange;
+import org.ta4j.core.num.DecimalNum;
 
 import javax.net.ssl.SSLException;
 import java.text.ParseException;
@@ -19,9 +20,8 @@ public class Trader {
         System.out.println("Running \n");
 
 
-        DSL dsl = new DSL();
+        DSL dsl = new DSL(ExchangeType.KRAKEN, Currency.XBT, Currency.EUR, DecimalNum.valueOf("0.01"));
         dsl.marketData.grpcConnect();
-        dsl.setWorkingCurrency(ExchangeType.KRAKEN, Currency.XBT, Currency.EUR);
         //Create an exchange
         LocalExchange lexchange = new LocalExchange(dsl);
         //Launch a bot
